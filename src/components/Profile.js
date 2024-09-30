@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import api from '../axios/api'; // Axios instance with base URL and token interceptor
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import React, { useState, useEffect } from "react";
+import api from "../axios/api"; // Axios instance with base URL and token interceptor
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 
 const Profile = () => {
   const [user, setUser] = useState({
-    username: '',
-    email: '',
-    bio: '',
-    location: '',
-    profilePicture: '',  // Default to empty string to avoid uncontrolled-to-controlled warning
+    username: "",
+    email: "",
+    bio: "",
+    location: "",
+    profilePicture: "", // Default to empty string to avoid uncontrolled-to-controlled warning
   });
   const [profilePictureFile, setProfilePictureFile] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -20,17 +20,18 @@ const Profile = () => {
 
   const fetchUserProfile = async () => {
     try {
-      const response = await api.get('/profile/'); // Adjust the endpoint as needed
+      const response = await api.get("/profile/"); // Adjust the endpoint as needed
       setUser({
-        username: response.data.username || '', // Provide fallback empty string
-        email: response.data.email || '',       // Provide fallback empty string
-        bio: response.data.bio || '',           // Populate bio field
-        location: response.data.location || '', // Populate location field
-        profilePicture: `http://localhost:8000/${response.data.profile_picture}` || '', // Adjust as needed
+        username: response.data.username || "", // Provide fallback empty string
+        email: response.data.email || "", // Provide fallback empty string
+        bio: response.data.bio || "", // Populate bio field
+        location: response.data.location || "", // Populate location field
+        profilePicture:
+          `http://localhost:8000/${response.data.profile_picture}` || "", // Adjust as needed
       });
       setLoading(false);
     } catch (error) {
-      console.error('Error fetching user profile:', error);
+      console.error("Error fetching user profile:", error);
     }
   };
 
@@ -46,20 +47,20 @@ const Profile = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
-    formData.append('username', user.username);
-    formData.append('email', user.email);
-    formData.append('bio', user.bio);
-    formData.append('location', user.location);  // Append location and bio
+    formData.append("username", user.username);
+    formData.append("email", user.email);
+    formData.append("bio", user.bio);
+    formData.append("location", user.location); // Append location and bio
     if (profilePictureFile) {
-      formData.append('profile_picture', profilePictureFile);  // Adjust field name to match your model
+      formData.append("profile_picture", profilePictureFile); // Adjust field name to match your model
     }
 
     try {
-      await api.put('/profile/', formData); // Adjust the endpoint as needed
+      await api.put("/profile/", formData); // Adjust the endpoint as needed
       fetchUserProfile(); // Refresh user profile after updating
-      navigate('/blog'); // Navigate to the blog list after updating
+      navigate("/blog"); // Navigate to the blog list after updating
     } catch (error) {
-      console.error('Error updating profile:', error);
+      console.error("Error updating profile:", error);
     }
   };
 
@@ -69,10 +70,24 @@ const Profile = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Profile Management</h1>
+      <div className="w-full flex justify-between items-center">
+        <h1 className="text-2xl font-bold">Profile Management</h1>
+        {user.profilePicture && (
+          <div className="w-32 h-32">
+            <img
+              src={user.profilePicture}
+              alt="Profile"
+              className="mt-2 w-full h-full  object-top rounded-full"
+            />
+          </div>
+        )}
+      </div>
+
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700">Username</label>
+          <label className="block text-sm font-medium text-gray-700">
+            Username
+          </label>
           <input
             type="text"
             name="username"
@@ -82,7 +97,9 @@ const Profile = () => {
           />
         </div>
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700">Email</label>
+          <label className="block text-sm font-medium text-gray-700">
+            Email
+          </label>
           <input
             type="email"
             name="email"
@@ -101,7 +118,9 @@ const Profile = () => {
           />
         </div>
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700">Location</label>
+          <label className="block text-sm font-medium text-gray-700">
+            Location
+          </label>
           <input
             type="text"
             name="location"
@@ -111,7 +130,9 @@ const Profile = () => {
           />
         </div>
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700">Profile Picture</label>
+          <label className="block text-sm font-medium text-gray-700">
+            Profile Picture
+          </label>
           <input
             type="file"
             onChange={handleFileChange}
@@ -120,21 +141,11 @@ const Profile = () => {
         </div>
         <button
           type="submit"
-          className="bg-blue-500 text-white px-4 py-2 rounded">
+          className="bg-blue-500 text-white px-4 py-2 rounded"
+        >
           Update Profile
         </button>
       </form>
-
-      {user.profilePicture && (
-        <div className="mt-4">
-          <h2 className="text-xl font-semibold">Current Profile Picture</h2>
-          <img
-            src={user.profilePicture}
-            alt="Profile"
-            className="mt-2 w-32 h-32 object-cover rounded-full"
-          />
-        </div>
-      )}
     </div>
   );
 };
