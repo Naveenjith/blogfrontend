@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { createTask, updateTask, getTask } from '../services/blogservice'; // Update the import to your blogservice file
+import { createTask, updateTask, getTask } from '../services/blogservice'; 
 
 const BlogForm = () => {
   const [title, setTitle] = useState('');
@@ -8,8 +8,8 @@ const BlogForm = () => {
   const [tags, setTags] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
-  const { id } = useParams(); // Get the ID from the URL if editing
-  const navigate = useNavigate(); // Hook to navigate
+  const { id } = useParams(); 
+  const navigate = useNavigate(); 
 
   useEffect(() => {
     if (id) {
@@ -50,7 +50,7 @@ const BlogForm = () => {
       setError('');
       
       // Navigate to the blog list
-      navigate('/blog'); // Change this to your actual blog list route
+      navigate('/blog'); 
     } catch (error) {
       setError('Failed to submit the blog post');
       setSuccess('');

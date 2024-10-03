@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import api from '../axios/api'; // Axios instance with base URL and token interceptor
+import api from '../axios/api'; 
 
 const BlogList = () => {
   const [posts, setPosts] = useState([]);
-  const [user, setUser] = useState({}); // State to hold user information
-  const navigate = useNavigate(); // Use useNavigate instead of useHistory
+  const [user, setUser] = useState({}); 
+  const navigate = useNavigate(); 
 
-  // Fetch blog posts and user info when component mounts
+  
   useEffect(() => {
     fetchBlogPosts();
-    fetchUserProfile(); // Fetch user profile info
+    fetchUserProfile(); 
   }, []);
 
   // Function to fetch blog posts from the API
@@ -26,7 +26,7 @@ const BlogList = () => {
   // Function to fetch user profile from the API
   const fetchUserProfile = async () => {
     try {
-      const response = await api.get('/profile/'); // Adjust the endpoint as needed
+      const response = await api.get('/profile/'); 
       setUser(response.data);
     } catch (error) {
       console.error('Error fetching user profile:', error);
@@ -37,7 +37,7 @@ const BlogList = () => {
   const deletePost = async (id) => {
     try {
       await api.delete(`/posts/${id}/`);
-      fetchBlogPosts(); // Refresh blog posts after deletion
+      fetchBlogPosts(); 
     } catch (error) {
       console.error('Error deleting blog post:', error);
     }
@@ -45,17 +45,17 @@ const BlogList = () => {
 
   // Redirect to the edit page for a blog post
   const editPost = (id) => {
-    navigate(`/edit-post/${id}`); // Use navigate instead of history.push
+    navigate(`/edit-post/${id}`); 
   };
 
   // Redirect to the view page for a blog post
   const viewPost = (id) => {
-    navigate(`/posts/${id}`); // Use navigate instead of history.push
+    navigate(`/posts/${id}`); 
   };
 
   // Function to handle logout
   const handleLogout = () => {
-    localStorage.removeItem('access_token'); // Remove the token
+    localStorage.removeItem('access_token'); 
     navigate('/login'); // Redirect to login
   };
 
@@ -68,7 +68,7 @@ const BlogList = () => {
         <div className="flex items-center space-x-4">
           {user.profilePicture && (
             <img 
-              src={user.profilePicture} // Adjust the URL as needed
+              src={user.profilePicture} 
               alt="Profile"
               className="w-10 h-10 rounded-full"
             />
@@ -78,7 +78,6 @@ const BlogList = () => {
           </h2>
         </div>
 
-        {/* Navigation Links for Profile and Logout positioned to the right */}
         <div className="flex items-center">
           <button 
             onClick={() => navigate('/profile')} 
@@ -98,7 +97,7 @@ const BlogList = () => {
       {/* Create New Post Button positioned above the blog posts */}
       <div className="mb-4">
         <button 
-          onClick={() => navigate('/create-post')} // Button to create new post
+          onClick={() => navigate('/create-post')}
           className="bg-red-500 text-black px-4 py-2 rounded">
           Create New Post
         </button>

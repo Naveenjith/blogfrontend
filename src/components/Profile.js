@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import api from "../axios/api"; // Axios instance with base URL and token interceptor
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import api from "../axios/api"; 
+import { useNavigate } from "react-router-dom"; 
 
 const Profile = () => {
   const [user, setUser] = useState({
@@ -8,11 +8,11 @@ const Profile = () => {
     email: "",
     bio: "",
     location: "",
-    profilePicture: "", // Default to empty string to avoid uncontrolled-to-controlled warning
+    profilePicture: "", 
   });
   const [profilePictureFile, setProfilePictureFile] = useState(null);
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchUserProfile();
@@ -20,14 +20,14 @@ const Profile = () => {
 
   const fetchUserProfile = async () => {
     try {
-      const response = await api.get("/profile/"); // Adjust the endpoint as needed
+      const response = await api.get("/profile/");
       setUser({
-        username: response.data.username || "", // Provide fallback empty string
-        email: response.data.email || "", // Provide fallback empty string
-        bio: response.data.bio || "", // Populate bio field
-        location: response.data.location || "", // Populate location field
+        username: response.data.username || "", 
+        email: response.data.email || "", 
+        bio: response.data.bio || "", 
+        location: response.data.location || "",
         profilePicture:
-          `http://localhost:8000/${response.data.profile_picture}` || "", // Adjust as needed
+          `http://localhost:8000/${response.data.profile_picture}` || "",
       });
       setLoading(false);
     } catch (error) {
@@ -50,15 +50,15 @@ const Profile = () => {
     formData.append("username", user.username);
     formData.append("email", user.email);
     formData.append("bio", user.bio);
-    formData.append("location", user.location); // Append location and bio
+    formData.append("location", user.location); 
     if (profilePictureFile) {
-      formData.append("profile_picture", profilePictureFile); // Adjust field name to match your model
+      formData.append("profile_picture", profilePictureFile);
     }
 
     try {
-      await api.put("/profile/", formData); // Adjust the endpoint as needed
-      fetchUserProfile(); // Refresh user profile after updating
-      navigate("/blog"); // Navigate to the blog list after updating
+      await api.put("/profile/", formData); 
+      fetchUserProfile();
+      navigate("/blog"); 
     } catch (error) {
       console.error("Error updating profile:", error);
     }

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom'; // Import Link here
-//import api from '../axios/api';  // Import your global axios instance
-import { login, saveTokens } from '../services/authservice'; // Import login and saveTokens
+import { useNavigate, Link } from 'react-router-dom';
+//import api from '../axios/api';  
+import { login, saveTokens } from '../services/authservice'; 
 
 const Login = () => {
-  const [username, setUsername] = useState(''); // Change email to username
+  const [username, setUsername] = useState(''); 
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();  // React Router's useNavigate to redirect after login
@@ -14,10 +14,10 @@ const Login = () => {
     setError('');
 
     try {
-      const response = await login({ username, password }); // Send username instead of email
+      const response = await login({ username, password });
 
       // Save tokens to localStorage
-      saveTokens(response.access, response.refresh); // Use saveTokens function
+      saveTokens(response.access, response.refresh); 
 
       // Redirect to another page (e.g., dashboard or blog post list)
       navigate('/blog');
